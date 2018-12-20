@@ -12,9 +12,7 @@ organisation = '4teamwork'
 def main():
     instance = DataHandling(organisation, github_token)
     instance.collect_open_pull_request_data()
-    filepath = instance.write_pull_info_to_file()
-    pull_info = instance.get_pull_info()
-    return filepath
+    instance.write_pull_info_to_file()
 
 
 if __name__ == '__main__':

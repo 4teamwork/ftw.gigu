@@ -1,5 +1,6 @@
 import os
 import time
+import json
 from github3 import login
 
 
@@ -27,7 +28,7 @@ class DataHandling:
 
                 self.pull_info.append({
                     'pull_title': pull.title,
-                    'last_updated': last_updated,
+                    'last_updated': last_updated.timestamp(),
                     'url': pull.html_url,
                     'creator': pull.user.login,
                     'assignees': [assignee.login for assignee in
@@ -48,12 +49,24 @@ class DataHandling:
         Create a file containing the data from unclosed pull requests.
         :return: filepath of file created
         """
-        filename = 'pull_info_{}.data'.format(
+        filename = 'pull_info_{}.json'.format(
             time.strftime('%Y_%m_%d_%H%M%S', time.gmtime()))
         current_path = os.path.dirname(os.path.abspath(__file__))
         self.file_path = current_path + '/reports/' + filename
 
-        with open(self.file_path, 'w+') as file_:
-            file_.write(str(self.pull_info))
+        with open(self.file_path, 'w+') as outfile:
+            json.dump(self.pull_info, outfile)
 
         return self.file_path
+
+    def open_from_file(self, filename=None):
+        if filename is None:
+            file_path = self.file_path
+        else:
+            current_path = os.path.dirname(os.path.abspath(__file__))
+            file_path = current_path + '/reports/' + filename
+
+        with open(file_path, 'r') as infile:
+            data = json.load(infile)
+
+        return data
