@@ -11,6 +11,7 @@ DESCRIPTION = 'Pings into pull requests which are not reviewed/proceeding.'
 URL = 'https://github.com/4teamwork/ftw.gigu'
 REQUIRED = [
     'python-dotenv==0.9.1',
+    'PyGithub==1.43.3',
 ]
 
 setuptools.setup(

@@ -16,4 +16,5 @@ Add Credentials:
 
 ```bash
 touch .env
+echo "GITHUB_TOKEN='[your github token]'" >> .env
 ```
