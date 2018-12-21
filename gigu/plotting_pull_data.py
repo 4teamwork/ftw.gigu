@@ -73,7 +73,8 @@ class PlottingTools:
         title = 'Average Time for pulls to merge per user'
         xlabel = 'Average time for pulls to merge (d)'
         ylabel = 'Username'
-        plot_data = list(filter(lambda item: item[1], plot_data))
+        plot_data = filter(lambda item: item[1], plot_data)
+        plot_data = list(sorted(plot_data, key=lambda item: item[1]))
         self.plot_data(plot_data, 'barh', (10, 14), title, xlabel, ylabel)
 
     def open_pulls_for_username(self):
@@ -87,5 +88,6 @@ class PlottingTools:
         title = 'Current open pulls per user'
         xlabel = 'Number of open pulls'
         ylabel = 'Username'
-        plot_data = list(filter(lambda item: item[1], plot_data))
+        plot_data = filter(lambda item: item[1], plot_data)
+        plot_data = list(sorted(plot_data, key=lambda item: item[1]))
         self.plot_data(plot_data, 'barh', (10, 14), title, xlabel, ylabel)
