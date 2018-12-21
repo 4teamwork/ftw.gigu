@@ -1,4 +1,3 @@
-from gigu.data_handling import DataHandling
 import json
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -19,6 +18,20 @@ class PlottingTools:
         creators = list(set(list(map(lambda d: d['creator'], self.pull_data))))
         return creators
 
+    def plot_data(self, plot_data, plot_type, figsize, title, xlabel, ylabel):
+        x = [el[0] for el in plot_data]
+        y = [el[1] for el in plot_data]
+
+        plt.figure(figsize=figsize)
+        if plot_type == 'barh':
+            plt.barh(x, y)
+        else:
+            plt.bar(x, y)
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.show()
+
     def graph_pulls_per_week(self):
         pull_data_open = [x for x in self.pull_data
                           if x['pull_state'] == 'open']
@@ -37,44 +50,42 @@ class PlottingTools:
             i -= 1
             ts += 604800
 
-        plt.figure(figsize=(10, 10))
-        plt.bar(list_x[::-1], list_y)
-        plt.title('Number of pulls in week now - x')
-        plt.xlabel('x\'th week (0 is today)')
-        plt.ylabel('unclosed pulls')
-        plt.show()
+        list_x = list_x[::-1]
+        plot_data = [(x, list_y[i]) for i, x in enumerate(list_x)]
+        title = 'Number of pulls in week now - x'
+        xlabel = 'x\'th week (0 is today)'
+        ylabel = 'unclosed pulls'
+        self.plot_data(plot_data, 'bar', (10, 10), title, xlabel, ylabel)
 
     def average_time_pulls_open_per_user(self):
-        x = self.get_creator_list()
-        y = []
-        for user in x:
+        plot_data = []
+        for user in self.get_creator_list():
             pulls_of_user = [p for p in self.pull_data
                              if p['creator'] == user]
             amount_pulls = len(pulls_of_user)
             time_from_open_to_close = [p['merged'] - p['created']
                                        for p in pulls_of_user
                                        if p['merged']]
-            y.append(sum(time_from_open_to_close) / amount_pulls)
+            av_time = sum(
+                time_from_open_to_close) / amount_pulls / 60 / 60 / 24
+            plot_data.append((user, av_time))
 
-        plt.figure(figsize=(10, 14))
-        plt.barh(x, y)
-        plt.title('Average Time for pulls to merge per user')
-        plt.xlabel('Username')
-        plt.ylabel('Average time for pulls to merge')
-        plt.show()
+        title = 'Average Time for pulls to merge per user'
+        xlabel = 'Average time for pulls to merge (d)'
+        ylabel = 'Username'
+        plot_data = list(filter(lambda item: item[1], plot_data))
+        self.plot_data(plot_data, 'barh', (10, 14), title, xlabel, ylabel)
 
     def open_pulls_for_username(self):
-        x = self.get_creator_list()
-        y = []
-        for user in x:
+        plot_data = []
+        for user in self.get_creator_list():
             u_pulls = [x for x in self.pull_data if x['creator'] == user
                        and x['pull_state'] == 'open']
             open_pulls = len(u_pulls)
-            y.append(open_pulls)
+            plot_data.append((user, open_pulls))
 
-        plt.figure(figsize=(10, 14))
-        plt.barh(x, y)
-        plt.title('Current open pulls per user')
-        plt.xlabel('Username')
-        plt.ylabel('Number of open pulls')
-        plt.show()
+        title = 'Current open pulls per user'
+        xlabel = 'Number of open pulls'
+        ylabel = 'Username'
+        plot_data = list(filter(lambda item: item[1], plot_data))
+        self.plot_data(plot_data, 'barh', (10, 14), title, xlabel, ylabel)
