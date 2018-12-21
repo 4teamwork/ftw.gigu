@@ -12,6 +12,7 @@ URL = 'https://github.com/4teamwork/ftw.gigu'
 REQUIRED = [
     'python-dotenv==0.9.1',
     'github3.py==1.2.0',
+    'matplotlib==3.0.2'
 ]
 
 setuptools.setup(

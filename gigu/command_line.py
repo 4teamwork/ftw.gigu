@@ -13,6 +13,8 @@ def main():
     instance = DataHandling(organisation, github_token)
     instance.collect_open_pull_request_data()
     instance.write_pull_info_to_file()
+    # data = instance.open_from_file('pull_info_2018_12_20_223942.json')
+    # print(data)
 
 
 if __name__ == '__main__':
