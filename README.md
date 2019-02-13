@@ -1,6 +1,6 @@
 # ftw.gigu
 
-Pings into pull requests which are not reviewed/proceeding.
+Analyse github data
 
 ## Quickstart
 
@@ -17,4 +17,10 @@ Add Credentials:
 ```bash
 touch .env
 echo "GITHUB_TOKEN='[your github token]'" >> .env
+```
+
+Generate graph for current github data:
+
+```bash
+analyze_data
 ```

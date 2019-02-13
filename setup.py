@@ -7,7 +7,7 @@ NAME = 'ftw.gigu'
 VERSION = '0.0.1'
 AUTHOR = '4teamwork'
 EMAIL = 'info@4teamwork.ch'
-DESCRIPTION = 'Pings into pull requests which are not reviewed/proceeding.'
+DESCRIPTION = 'Analyzes data from github organisation.'
 URL = 'https://github.com/4teamwork/ftw.gigu'
 REQUIRED = [
     'python-dotenv==0.9.1',
@@ -32,6 +32,6 @@ setuptools.setup(
     ],
     install_requires=REQUIRED,
     entry_points={
-        'console_scripts': ['ping_everywhere=gigu.command_line:main'],
+        'console_scripts': ['analyze_data=gigu.command_line:main'],
     },
 )
